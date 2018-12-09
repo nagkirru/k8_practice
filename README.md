@@ -29,8 +29,7 @@ cluster: Running
 kubectl: Correctly Configured: pointing to minikube-vm at 192.168.99.100
 
 
-
--------
+=======================================================
 
 To install kubectl on Linux, follow the instructions below:
 
@@ -44,7 +43,34 @@ root@naga:~# which kubectl
 root@naga:~# 
 
 
------------
+--------------
+
+naga@naga:~$ kubectl version --client
+Client Version: version.Info{Major:"1", Minor:"10", GitVersion:"v1.10.0", GitCommit:"fc32d2f3698e36b93322a3465f63a14e9f0eaead", GitTreeState:"clean", BuildDate:"2018-03-26T16:55:54Z", GoVersion:"go1.9.3", Compiler:"gc", Platform:"linux/amd64"}
+
+--------------------
+
+
+root@naga:~# kubectl config current-context
+minikube
+
+
+root@naga:~# kubectl get nodes
+NAME       STATUS    ROLES     AGE       VERSION
+minikube   Ready     master    46m       v1.10.0
+
+
+we cab switch context later 
+
+
+
+----------------------
+
+
+
+
+
+===============================================
 kubectl Configuration File
 
 To look at the connection details, we can either see the content of the ~/.kube/config
@@ -195,6 +221,20 @@ https://192.168.99.100:8443
 =================================================================
 
 
+To list all the Namespaces, we can run the following command:
+
+$ kubectl get namespaces
+
+root@naga:~# kubectl get namespaces
+NAME          STATUS    AGE
+default       Active    14h
+kube-public   Active    14h
+kube-system   Active    14h
+root@naga:~# 
+
+Using Resource Quotas, we can divide the cluster resources within Namespaces. 
+
+============================================================
 
 
 
