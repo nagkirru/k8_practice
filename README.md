@@ -236,5 +236,70 @@ Using Resource Quotas, we can divide the cluster resources within Namespaces.
 
 ============================================================
 
+Authentication and Authorization (Demo)
+
+https://courses.edx.org/courses/course-v1:LinuxFoundationX+LFS158x+1T2018/courseware/d7e0b7d9bd57499a9265e0093ff7d8d6/f6f8a73dc38647eeb576dce791500901/?child=first
+
+
+======================
+
+creating pods..
+
+
+root@naga:~# kubectl get nodes
+NAME       STATUS    ROLES     AGE       VERSION
+minikube   Ready     master    18h       v1.10.0
+
+
+
+write pod.yml
+
+
+kubectl create -f pod.yml
+
+
+kubectl get pods
+
+-- containerCreating ( status)
+
+kubectl describe pods -- pod status - pending  , container status - waiting  .. it will be pulling image 
+
+then the status again 
+
+kubectl get pods  -- shows all pods in default namaspace
+
+kubectl get pods/hello-pod
+
+kubectl get pods --all-namespaces
+
+
+kubectl delete pods hello-pod
+
+
+but we don't create PODS directly
+
+
+------------
+
+
+kind: ReplicationController 
+spec:
+  replicas: 10
+
+rc.yml
+
+kubectl apply -f rc.yml
+
+kubectl get pds
+
+====================================
+
+services:
+
+
+
+
+
+
 
 
