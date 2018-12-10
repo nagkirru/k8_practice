@@ -320,10 +320,7 @@ kubectl describe svc hello-svc
 
 kubectl get ep
 
-
-
----------------------
-
+=======================================================
 
 deployment- stand alone app in local
 
@@ -331,9 +328,80 @@ deployment- stand alone app in local
 root@naga:/home/naga/k8-practice# cat webserver.yaml
 
 
+root@naga:/home/naga/k8-practice# kubectl create -f webserver.yaml
+deployment.apps "webserver" created
+
+
+root@naga:/home/naga/k8-practice# kubectl get replicasets
+NAME                   DESIRED   CURRENT   READY     AGE
+webserver-77d8994b6f   3         3         3         3m
+
+
+root@naga:/home/naga/k8-practice# kubectl get pods
+NAME                         READY     STATUS    RESTARTS   AGE
+webserver-77d8994b6f-h6rq8   1/1       Running   0          4m
+webserver-77d8994b6f-ndscb   1/1       Running   0          4m
+webserver-77d8994b6f-nmvgd   1/1       Running   0          4m
+
+
+--> Creating a Service and Exposing It to the External World with NodePort
 
 
 
+
+root@naga:/home/naga/k8-practice# kubectl create -f webserver-svc.yaml
+service "web-service" created
+
+
+root@naga:/home/naga/k8-practice# kubectl get svc
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+kubernetes    ClusterIP   10.96.0.1       <none>        443/TCP        19h
+web-service   NodePort    10.96.241.131   <none>        80:30975/TCP   1m
+
+
+
+It is not necessary to create the Deployment first, and the Service after. They can be created in any order. A Service will connect Pods based on the Selector.
+
+
+root@naga:/home/naga/k8-practice# kubectl describe svc web-service
+Name:                     web-service
+Namespace:                default
+Labels:                   run=web-service
+Annotations:              <none>
+Selector:                 app=nginx
+Type:                     NodePort
+IP:                       10.96.241.131
+Port:                     <unset>  80/TCP
+TargetPort:               80/TCP
+NodePort:                 <unset>  30975/TCP
+Endpoints:                172.17.0.5:80,172.17.0.6:80,172.17.0.7:80
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+
+
+web-service uses app=nginx as a Selector, through which it selected our three Pods, which are listed as endpoints. So, whenever we send a request to our Service, it will be served by one of the Pods listed in the Endpoints section.
+
+-->>  Accessing the Application Using the Exposed NodePort
+
+Our application is running inside the Minikube VM. To access the application from our workstation, let's first get the IP address of the Minikube VM:
+
+
+root@naga:/home/naga/k8-practice# minikube ip
+192.168.99.101
+
+
+get port number from --  command "kubectl describe svc web-service"
+NodePort:                 <unset>  30975/TCP
+
+
+now access 
+http://192.168.99.101:30975/
+
+
+We could also run the following minikube command to access the application on the browser:
+
+root@naga:/home/naga/k8-practice# minikube service web-service
 
 
 
