@@ -297,6 +297,42 @@ kubectl get pds
 services:
 
 
+kubectl expose rc helloc-rc --name=hello-svc --target-port=8080 --type=NodePort ( sample, not recommendated.. use declaratively )
+
+
+kubectl delete svc hello-svc
+
+----------  
+create service manifest file
+
+Kind: Service
+
+spec: NodePort
+
+
+kubectl create -f svc.yml
+
+kubectl get svc
+
+kubectl describe svc hello-svc
+
+->when we create service it creates endpoint
+
+kubectl get ep
+
+
+
+---------------------
+
+
+deployment- stand alone app in local
+
+
+root@naga:/home/naga/k8-practice# cat webserver.yaml
+
+
+
+
 
 
 
