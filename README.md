@@ -405,5 +405,22 @@ root@naga:/home/naga/k8-practice# minikube service web-service
 
 
 
+===============
+Liveness and Readiness Probes::
 
+While we are discussing application deployment, let's talk about Liveness and Readiness Probes. These probes are very important, because they allow the kubelet to control the health of the application running inside a Pod's container.
+
+----------
+Liveness
+-----------
+
+If a container in the Pod is running, but the application running inside this container is not responding to our requests, then that container is of no use to us. This kind of situation can occur, for example, due to application deadlock or memory pressure. In such a case, it is recommended to restart the container to make the application available.
+
+Rather than doing it manually, we can use Liveness Probe. Liveness probe checks on an application's health, and, if for some reason, the health check fails, it restarts the affected container automatically.
+
+Liveness Probes can be set by defining:
+
+Liveness command
+Liveness HTTP request
+TCP Liveness Probe.
 
